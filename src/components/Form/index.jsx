@@ -6,17 +6,14 @@ import {
   Stack,
   FormControlLabel,
   Checkbox,
+  Typography
 } from "@mui/material";
 import TextInput from "../TextInput";
 import DatePickerInput from "../DatePickerInput";
+import axios from "axios";
 
 const yesterday = dayjs().subtract(1, "day");
 const eighteen = dayjs().subtract(18, "year");
-
-// todo
-// Button action:
-//  - simulate rest api call to save values - axios call to JSON?
-//  - handle and display error if server unreachable
 
 const Form = () => {
   const [name, setName] = useState("");
@@ -26,6 +23,8 @@ const Form = () => {
   const [dobErr, setDobErr] = useState("");
 
   const [termsChecked, setTermsChecked] = useState(false);
+
+  const [submittedMsg, setSubmittedMsg] = useState("");
 
   const validateName = () => {
     if (name.length > 100) {
@@ -48,7 +47,7 @@ const Form = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     validateName();
     validateDob();
@@ -56,14 +55,22 @@ const Form = () => {
         console.log("not valid");
         return
     }
-    console.log("valid")
+    try {
+      const res = await axios.post("http://localhost:3000/users", {name, dob})
+      if(res.data) {
+        setSubmittedMsg("Thank you for your submission")
+      }
+    } 
+    catch(err) {
+      setSubmittedMsg("We regret that this service is currently unavailable")
+    }
   };
 
 const shouldDisableField = !name || !dob || !!nameErr || !!dobErr || !dob.isValid()
 
   return (
     <form onSubmit={handleSubmit}>
-      <Stack spacing={2}>
+      <Stack width="500px" spacing={2}>
         <TextInput
           name="Name"
           value={name}
@@ -98,6 +105,7 @@ const shouldDisableField = !name || !dob || !!nameErr || !!dobErr || !dob.isVali
         <Button variant="outlined" type="submit" disabled={shouldDisableField || !termsChecked}>
           Submit
         </Button>
+        {!!submittedMsg && <Typography>{submittedMsg}</Typography>}
       </Stack>
     </form>
   );
