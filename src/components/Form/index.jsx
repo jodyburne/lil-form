@@ -6,7 +6,7 @@ import {
   Stack,
   FormControlLabel,
   Checkbox,
-  Typography
+  Typography,
 } from "@mui/material";
 import TextInput from "../TextInput";
 import DatePickerInput from "../DatePickerInput";
@@ -51,22 +51,25 @@ const Form = () => {
     e.preventDefault();
     validateName();
     validateDob();
-    if(!!nameErr || !!dobErr || !termsChecked || !dob.isValid()) {
-        console.log("not valid");
-        return
+    if (!!nameErr || !!dobErr || !termsChecked || !dob.isValid()) {
+      console.log("not valid");
+      return;
     }
     try {
-      const res = await axios.post("http://localhost:3000/users", {name, dob})
-      if(res.data) {
-        setSubmittedMsg("Thank you for your submission")
+      const res = await axios.post("http://localhost:3000/users", {
+        name,
+        dob,
+      });
+      if (res.data) {
+        setSubmittedMsg("Thank you for your submission");
       }
-    } 
-    catch(err) {
-      setSubmittedMsg("We regret that this service is currently unavailable")
+    } catch (err) {
+      setSubmittedMsg("We regret that this service is currently unavailable");
     }
   };
 
-const shouldDisableField = !name || !dob || !!nameErr || !!dobErr || !dob.isValid()
+  const shouldDisableField =
+    !name || !dob || !!nameErr || !!dobErr || !dob.isValid();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -102,7 +105,11 @@ const shouldDisableField = !name || !dob || !!nameErr || !!dobErr || !dob.isVali
             }
           />
         </FormGroup>
-        <Button variant="outlined" type="submit" disabled={shouldDisableField || !termsChecked}>
+        <Button
+          variant="outlined"
+          type="submit"
+          disabled={shouldDisableField || !termsChecked}
+        >
           Submit
         </Button>
         {!!submittedMsg && <Typography>{submittedMsg}</Typography>}

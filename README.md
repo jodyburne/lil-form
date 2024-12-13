@@ -1,7 +1,7 @@
 ## Small form
 
-- Uses react, javascript, material ui, + needs node 18
-
+- Uses react, javascript, material ui, jsonserver + needs node 18
+- Install deps and do npm run dev
 
 ### Template used: React + Vite
 

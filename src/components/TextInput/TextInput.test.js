@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import TextInput from ".";
 
 const props = {
@@ -15,14 +15,14 @@ describe("<TextInput/> component", () => {
     expect(queryByText(props.name)).toBeTruthy();
   });
   it("shows the error message if one is present", () => {
-    const { queryByText, debug } = render(<TextInput {...props} />);
+    const { queryByText } = render(<TextInput {...props} />);
     expect(queryByText(props.error)).toBeTruthy();
   });
   it("calls the setValue and setError funcions on change", () => {
-    const { queryByDisplayValue, debug } = render(<TextInput {...props} />);
-    const input = queryByDisplayValue(props.value)
-    fireEvent.change(input, { target: { value: 'Hiya' } });
-    expect(props.setValue).toBeCalled()
-    expect(props.setError).toBeCalled()
+    const { queryByDisplayValue } = render(<TextInput {...props} />);
+    const input = queryByDisplayValue(props.value);
+    fireEvent.change(input, { target: { value: "Hiya" } });
+    expect(props.setValue).toBeCalled();
+    expect(props.setError).toBeCalled();
   });
 });

@@ -1,9 +1,15 @@
 import React from "react";
-import {
-  TextField,
-} from "@mui/material";
+import { TextField } from "@mui/material";
 
-const TextInput = ({ name, value, setValue, error, setError, required, validate }) => {
+const TextInput = ({
+  name,
+  value,
+  setValue,
+  error,
+  setError,
+  required,
+  validate,
+}) => {
   return (
     <TextField
       InputLabelProps={{ shrink: true }}
